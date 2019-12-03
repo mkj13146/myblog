@@ -1,59 +1,19 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50540
-Source Host           : localhost:3306
+Source Server         : localhost_9804
+Source Server Version : 50728
+Source Host           : localhost:9804
 Source Database       : blog
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50728
 File Encoding         : 65001
 
-Date: 2019-03-09 23:14:54
+Date: 2019-12-03 16:18:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for account_emailaddress
--- ----------------------------
-DROP TABLE IF EXISTS `account_emailaddress`;
-CREATE TABLE `account_emailaddress` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(254) NOT NULL,
-  `verified` tinyint(1) NOT NULL,
-  `primary` tinyint(1) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `account_emailaddress_user_id_2c513194_fk_oauth_ouser_id` (`user_id`),
-  CONSTRAINT `account_emailaddress_user_id_2c513194_fk_oauth_ouser_id` FOREIGN KEY (`user_id`) REFERENCES `oauth_ouser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_emailaddress
--- ----------------------------
-
--- ----------------------------
--- Table structure for account_emailconfirmation
--- ----------------------------
-DROP TABLE IF EXISTS `account_emailconfirmation`;
-CREATE TABLE `account_emailconfirmation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created` datetime NOT NULL,
-  `sent` datetime DEFAULT NULL,
-  `key` varchar(64) NOT NULL,
-  `email_address_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `key` (`key`),
-  KEY `account_emailconfirmation_email_address_id_5b7f8c58_fk` (`email_address_id`),
-  CONSTRAINT `account_emailconfirmation_email_address_id_5b7f8c58_fk` FOREIGN KEY (`email_address_id`) REFERENCES `account_emailaddress` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of account_emailconfirmation
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for auth_group
@@ -81,8 +41,8 @@ CREATE TABLE `auth_group_permissions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
-  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -101,7 +61,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of auth_permission
@@ -121,33 +81,33 @@ INSERT INTO `auth_permission` VALUES ('12', 'Can delete content type', '4', 'del
 INSERT INTO `auth_permission` VALUES ('13', 'Can add session', '5', 'add_session');
 INSERT INTO `auth_permission` VALUES ('14', 'Can change session', '5', 'change_session');
 INSERT INTO `auth_permission` VALUES ('15', 'Can delete session', '5', 'delete_session');
-INSERT INTO `auth_permission` VALUES ('16', 'Can add 文章', '6', 'add_article');
-INSERT INTO `auth_permission` VALUES ('17', 'Can change 文章', '6', 'change_article');
-INSERT INTO `auth_permission` VALUES ('18', 'Can delete 文章', '6', 'delete_article');
-INSERT INTO `auth_permission` VALUES ('19', 'Can add 图片轮播', '7', 'add_carousel');
-INSERT INTO `auth_permission` VALUES ('20', 'Can change 图片轮播', '7', 'change_carousel');
-INSERT INTO `auth_permission` VALUES ('21', 'Can delete 图片轮播', '7', 'delete_carousel');
-INSERT INTO `auth_permission` VALUES ('22', 'Can add 分类', '8', 'add_category');
-INSERT INTO `auth_permission` VALUES ('23', 'Can change 分类', '8', 'change_category');
-INSERT INTO `auth_permission` VALUES ('24', 'Can delete 分类', '8', 'delete_category');
-INSERT INTO `auth_permission` VALUES ('25', 'Can add 友情链接', '9', 'add_friendlink');
-INSERT INTO `auth_permission` VALUES ('26', 'Can change 友情链接', '9', 'change_friendlink');
-INSERT INTO `auth_permission` VALUES ('27', 'Can delete 友情链接', '9', 'delete_friendlink');
-INSERT INTO `auth_permission` VALUES ('28', 'Can add 关键词', '10', 'add_keyword');
-INSERT INTO `auth_permission` VALUES ('29', 'Can change 关键词', '10', 'change_keyword');
-INSERT INTO `auth_permission` VALUES ('30', 'Can delete 关键词', '10', 'delete_keyword');
-INSERT INTO `auth_permission` VALUES ('31', 'Can add 死链', '11', 'add_silian');
-INSERT INTO `auth_permission` VALUES ('32', 'Can change 死链', '11', 'change_silian');
-INSERT INTO `auth_permission` VALUES ('33', 'Can delete 死链', '11', 'delete_silian');
-INSERT INTO `auth_permission` VALUES ('34', 'Can add 标签', '12', 'add_tag');
-INSERT INTO `auth_permission` VALUES ('35', 'Can change 标签', '12', 'change_tag');
-INSERT INTO `auth_permission` VALUES ('36', 'Can delete 标签', '12', 'delete_tag');
-INSERT INTO `auth_permission` VALUES ('37', 'Can add 时间线', '13', 'add_timeline');
-INSERT INTO `auth_permission` VALUES ('38', 'Can change 时间线', '13', 'change_timeline');
-INSERT INTO `auth_permission` VALUES ('39', 'Can delete 时间线', '13', 'delete_timeline');
-INSERT INTO `auth_permission` VALUES ('40', 'Can add 大分类', '14', 'add_bigcategory');
-INSERT INTO `auth_permission` VALUES ('41', 'Can change 大分类', '14', 'change_bigcategory');
-INSERT INTO `auth_permission` VALUES ('42', 'Can delete 大分类', '14', 'delete_bigcategory');
+INSERT INTO `auth_permission` VALUES ('16', 'Can add 公告', '6', 'add_activate');
+INSERT INTO `auth_permission` VALUES ('17', 'Can change 公告', '6', 'change_activate');
+INSERT INTO `auth_permission` VALUES ('18', 'Can delete 公告', '6', 'delete_activate');
+INSERT INTO `auth_permission` VALUES ('19', 'Can add 文章', '7', 'add_article');
+INSERT INTO `auth_permission` VALUES ('20', 'Can change 文章', '7', 'change_article');
+INSERT INTO `auth_permission` VALUES ('21', 'Can delete 文章', '7', 'delete_article');
+INSERT INTO `auth_permission` VALUES ('22', 'Can add 大分类', '8', 'add_bigcategory');
+INSERT INTO `auth_permission` VALUES ('23', 'Can change 大分类', '8', 'change_bigcategory');
+INSERT INTO `auth_permission` VALUES ('24', 'Can delete 大分类', '8', 'delete_bigcategory');
+INSERT INTO `auth_permission` VALUES ('25', 'Can add 图片轮播', '9', 'add_carousel');
+INSERT INTO `auth_permission` VALUES ('26', 'Can change 图片轮播', '9', 'change_carousel');
+INSERT INTO `auth_permission` VALUES ('27', 'Can delete 图片轮播', '9', 'delete_carousel');
+INSERT INTO `auth_permission` VALUES ('28', 'Can add 分类', '10', 'add_category');
+INSERT INTO `auth_permission` VALUES ('29', 'Can change 分类', '10', 'change_category');
+INSERT INTO `auth_permission` VALUES ('30', 'Can delete 分类', '10', 'delete_category');
+INSERT INTO `auth_permission` VALUES ('31', 'Can add 友情链接', '11', 'add_friendlink');
+INSERT INTO `auth_permission` VALUES ('32', 'Can change 友情链接', '11', 'change_friendlink');
+INSERT INTO `auth_permission` VALUES ('33', 'Can delete 友情链接', '11', 'delete_friendlink');
+INSERT INTO `auth_permission` VALUES ('34', 'Can add 关键词', '12', 'add_keyword');
+INSERT INTO `auth_permission` VALUES ('35', 'Can change 关键词', '12', 'change_keyword');
+INSERT INTO `auth_permission` VALUES ('36', 'Can delete 关键词', '12', 'delete_keyword');
+INSERT INTO `auth_permission` VALUES ('37', 'Can add 死链', '13', 'add_silian');
+INSERT INTO `auth_permission` VALUES ('38', 'Can change 死链', '13', 'change_silian');
+INSERT INTO `auth_permission` VALUES ('39', 'Can delete 死链', '13', 'delete_silian');
+INSERT INTO `auth_permission` VALUES ('40', 'Can add 标签', '14', 'add_tag');
+INSERT INTO `auth_permission` VALUES ('41', 'Can change 标签', '14', 'change_tag');
+INSERT INTO `auth_permission` VALUES ('42', 'Can delete 标签', '14', 'delete_tag');
 INSERT INTO `auth_permission` VALUES ('43', 'Can add 用户', '15', 'add_ouser');
 INSERT INTO `auth_permission` VALUES ('44', 'Can change 用户', '15', 'change_ouser');
 INSERT INTO `auth_permission` VALUES ('45', 'Can delete 用户', '15', 'delete_ouser');
@@ -163,27 +123,9 @@ INSERT INTO `auth_permission` VALUES ('54', 'Can delete comment user', '18', 'de
 INSERT INTO `auth_permission` VALUES ('55', 'Can add 给我留言', '19', 'add_messagecomment');
 INSERT INTO `auth_permission` VALUES ('56', 'Can change 给我留言', '19', 'change_messagecomment');
 INSERT INTO `auth_permission` VALUES ('57', 'Can delete 给我留言', '19', 'delete_messagecomment');
-INSERT INTO `auth_permission` VALUES ('58', 'Can add site', '20', 'add_site');
-INSERT INTO `auth_permission` VALUES ('59', 'Can change site', '20', 'change_site');
-INSERT INTO `auth_permission` VALUES ('60', 'Can delete site', '20', 'delete_site');
-INSERT INTO `auth_permission` VALUES ('61', 'Can add email address', '21', 'add_emailaddress');
-INSERT INTO `auth_permission` VALUES ('62', 'Can change email address', '21', 'change_emailaddress');
-INSERT INTO `auth_permission` VALUES ('63', 'Can delete email address', '21', 'delete_emailaddress');
-INSERT INTO `auth_permission` VALUES ('64', 'Can add email confirmation', '22', 'add_emailconfirmation');
-INSERT INTO `auth_permission` VALUES ('65', 'Can change email confirmation', '22', 'change_emailconfirmation');
-INSERT INTO `auth_permission` VALUES ('66', 'Can delete email confirmation', '22', 'delete_emailconfirmation');
-INSERT INTO `auth_permission` VALUES ('67', 'Can add social account', '23', 'add_socialaccount');
-INSERT INTO `auth_permission` VALUES ('68', 'Can change social account', '23', 'change_socialaccount');
-INSERT INTO `auth_permission` VALUES ('69', 'Can delete social account', '23', 'delete_socialaccount');
-INSERT INTO `auth_permission` VALUES ('70', 'Can add social application', '24', 'add_socialapp');
-INSERT INTO `auth_permission` VALUES ('71', 'Can change social application', '24', 'change_socialapp');
-INSERT INTO `auth_permission` VALUES ('72', 'Can delete social application', '24', 'delete_socialapp');
-INSERT INTO `auth_permission` VALUES ('73', 'Can add social application token', '25', 'add_socialtoken');
-INSERT INTO `auth_permission` VALUES ('74', 'Can change social application token', '25', 'change_socialtoken');
-INSERT INTO `auth_permission` VALUES ('75', 'Can delete social application token', '25', 'delete_socialtoken');
-INSERT INTO `auth_permission` VALUES ('76', 'Can add 公告', '26', 'add_activate');
-INSERT INTO `auth_permission` VALUES ('77', 'Can change 公告', '26', 'change_activate');
-INSERT INTO `auth_permission` VALUES ('78', 'Can delete 公告', '26', 'delete_activate');
+INSERT INTO `auth_permission` VALUES ('58', 'Can add 资源', '20', 'add_resource');
+INSERT INTO `auth_permission` VALUES ('59', 'Can change 资源', '20', 'change_resource');
+INSERT INTO `auth_permission` VALUES ('60', 'Can delete 资源', '20', 'delete_resource');
 
 -- ----------------------------
 -- Table structure for comment_aboutcomment
@@ -191,7 +133,7 @@ INSERT INTO `auth_permission` VALUES ('78', 'Can delete 公告', '26', 'delete_a
 DROP TABLE IF EXISTS `comment_aboutcomment`;
 CREATE TABLE `comment_aboutcomment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_date` datetime NOT NULL,
+  `create_date` datetime(6) NOT NULL,
   `content` longtext NOT NULL,
   `author_id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
@@ -203,13 +145,11 @@ CREATE TABLE `comment_aboutcomment` (
   CONSTRAINT `comment_aboutcomment_author_id_d11e841e_fk_comment_c` FOREIGN KEY (`author_id`) REFERENCES `comment_commentuser` (`id`),
   CONSTRAINT `comment_aboutcomment_parent_id_a12294ac_fk_comment_a` FOREIGN KEY (`parent_id`) REFERENCES `comment_aboutcomment` (`id`),
   CONSTRAINT `comment_aboutcomment_rep_to_id_e44ab5ad_fk_comment_a` FOREIGN KEY (`rep_to_id`) REFERENCES `comment_aboutcomment` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment_aboutcomment
 -- ----------------------------
-INSERT INTO `comment_aboutcomment` VALUES ('1', '2019-03-02 23:40:04', 'dfdf ', '12', null, null);
-INSERT INTO `comment_aboutcomment` VALUES ('2', '2019-03-02 23:45:45', 'efefe', '23', null, null);
 
 -- ----------------------------
 -- Table structure for comment_articlecomment
@@ -217,7 +157,7 @@ INSERT INTO `comment_aboutcomment` VALUES ('2', '2019-03-02 23:45:45', 'efefe', 
 DROP TABLE IF EXISTS `comment_articlecomment`;
 CREATE TABLE `comment_articlecomment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_date` datetime NOT NULL,
+  `create_date` datetime(6) NOT NULL,
   `content` longtext NOT NULL,
   `author_id` int(11) NOT NULL,
   `belong_id` int(11) NOT NULL,
@@ -228,35 +168,16 @@ CREATE TABLE `comment_articlecomment` (
   KEY `comment_articlecomment_belong_id_58e0232c_fk_storm_article_id` (`belong_id`),
   KEY `comment_articlecomme_parent_id_f0ab594d_fk_comment_a` (`parent_id`),
   KEY `comment_articlecomme_rep_to_id_84dab3d5_fk_comment_a` (`rep_to_id`),
-  CONSTRAINT `comment_articlecomment_belong_id_58e0232c_fk_storm_article_id` FOREIGN KEY (`belong_id`) REFERENCES `storm_article` (`id`),
   CONSTRAINT `comment_articlecomme_author_id_46e6fdb8_fk_comment_c` FOREIGN KEY (`author_id`) REFERENCES `comment_commentuser` (`id`),
   CONSTRAINT `comment_articlecomme_parent_id_f0ab594d_fk_comment_a` FOREIGN KEY (`parent_id`) REFERENCES `comment_articlecomment` (`id`),
-  CONSTRAINT `comment_articlecomme_rep_to_id_84dab3d5_fk_comment_a` FOREIGN KEY (`rep_to_id`) REFERENCES `comment_articlecomment` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+  CONSTRAINT `comment_articlecomme_rep_to_id_84dab3d5_fk_comment_a` FOREIGN KEY (`rep_to_id`) REFERENCES `comment_articlecomment` (`id`),
+  CONSTRAINT `comment_articlecomment_belong_id_58e0232c_fk_storm_article_id` FOREIGN KEY (`belong_id`) REFERENCES `storm_article` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment_articlecomment
 -- ----------------------------
-INSERT INTO `comment_articlecomment` VALUES ('1', '2019-03-02 17:21:14', '气味芬芳', '12', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('2', '2019-03-02 17:26:46', '肥肥的', '13', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('3', '2019-03-02 17:27:05', '的方式发送', '13', '1', '1', null);
-INSERT INTO `comment_articlecomment` VALUES ('4', '2019-03-02 17:27:43', '放热峰', '13', '1', '3', null);
-INSERT INTO `comment_articlecomment` VALUES ('5', '2019-03-02 17:28:07', '粉色分', '13', '1', '3', null);
-INSERT INTO `comment_articlecomment` VALUES ('6', '2019-03-02 17:28:45', '发射点发生', '12', '1', '4', null);
-INSERT INTO `comment_articlecomment` VALUES ('7', '2019-03-02 17:33:51', '放松放松v发', '14', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('8', '2019-03-02 17:48:12', '分分分', '12', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('9', '2019-03-02 17:49:50', '分分', '12', '1', '3', null);
-INSERT INTO `comment_articlecomment` VALUES ('10', '2019-03-02 17:50:10', '为非人防', '12', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('11', '2019-03-02 17:51:08', '哥特人感染', '12', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('12', '2019-03-02 18:00:07', '哈哈哈哈哈', '12', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('13', '2019-03-02 18:00:26', '就哈哈哈哈哈', '12', '1', '3', null);
-INSERT INTO `comment_articlecomment` VALUES ('14', '2019-03-02 18:06:10', '江河湖海你就回家', '18', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('15', '2019-03-02 18:09:49', '德尔福', '19', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('16', '2019-03-02 18:10:25', '的额', '12', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('17', '2019-03-02 18:18:14', 'de\'d', '21', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('18', '2019-03-02 18:20:19', '放热峰乳房', '22', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('19', '2019-03-02 18:20:37', '沟通', '22', '1', null, null);
-INSERT INTO `comment_articlecomment` VALUES ('20', '2019-03-03 21:02:13', '纷纷', '10', '3', null, null);
+INSERT INTO `comment_articlecomment` VALUES ('1', '2019-11-28 11:17:24.440985', '0', '1', '1', null, null);
 
 -- ----------------------------
 -- Table structure for comment_commentuser
@@ -268,30 +189,12 @@ CREATE TABLE `comment_commentuser` (
   `email` varchar(30) NOT NULL,
   `address` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment_commentuser
 -- ----------------------------
-INSERT INTO `comment_commentuser` VALUES ('1', 'stor', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('3', '的', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('4', '打算', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('5', '额为全额', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('6', '热热给', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('7', '对的', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('8', 'ff', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('9', 'fref', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('10', '得分', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('11', '威威', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('12', 'createsuperuser', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('13', 'stor的', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('14', '		方法					', '1414749109@qq.com', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `comment_commentuser` VALUES ('18', 'hhhh', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('19', 'h\'h\'h', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('20', '', '', '');
-INSERT INTO `comment_commentuser` VALUES ('21', '3e\'d', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('22', 'de\'f', '1414749109@qq.com', '');
-INSERT INTO `comment_commentuser` VALUES ('23', 'creat', '1414749109@qq.com', '');
+INSERT INTO `comment_commentuser` VALUES ('1', 'makangjia', 'mkj0421@126.com', '');
 
 -- ----------------------------
 -- Table structure for comment_messagecomment
@@ -299,7 +202,7 @@ INSERT INTO `comment_commentuser` VALUES ('23', 'creat', '1414749109@qq.com', ''
 DROP TABLE IF EXISTS `comment_messagecomment`;
 CREATE TABLE `comment_messagecomment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_date` datetime NOT NULL,
+  `create_date` datetime(6) NOT NULL,
   `content` longtext NOT NULL,
   `author_id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
@@ -311,26 +214,11 @@ CREATE TABLE `comment_messagecomment` (
   CONSTRAINT `comment_messagecomme_author_id_0bb97e6c_fk_comment_c` FOREIGN KEY (`author_id`) REFERENCES `comment_commentuser` (`id`),
   CONSTRAINT `comment_messagecomme_parent_id_d4633983_fk_comment_m` FOREIGN KEY (`parent_id`) REFERENCES `comment_messagecomment` (`id`),
   CONSTRAINT `comment_messagecomme_rep_to_id_029597ed_fk_comment_m` FOREIGN KEY (`rep_to_id`) REFERENCES `comment_messagecomment` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment_messagecomment
 -- ----------------------------
-INSERT INTO `comment_messagecomment` VALUES ('1', '2019-02-27 23:57:34', '顶顶顶顶', '1', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('2', '2019-02-28 00:02:50', '低端市场', '3', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('3', '2019-02-28 00:05:37', '第三党', '4', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('4', '2019-02-28 00:06:10', 'e二五v', '4', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('5', '2019-02-28 00:07:13', '而维持', '5', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('6', '2019-02-28 00:11:39', '割让给外人', '5', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('7', '2019-02-28 00:11:58', '非人非如果', '5', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('8', '2019-02-28 00:12:26', '微微发热', '6', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('9', '2019-02-28 00:13:38', '的的额斐然斐然斐然', '7', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('10', '2019-02-28 00:14:03', '四点三十大风车是的', '7', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('11', '2019-02-28 00:27:54', 'fds ', '8', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('12', '2019-02-28 00:31:25', 'defef', '9', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('13', '2019-02-28 00:36:57', '的vv发v旅人', '10', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('14', '2019-02-28 00:37:26', '二点五v威威v', '10', null, null);
-INSERT INTO `comment_messagecomment` VALUES ('15', '2019-02-28 00:37:57', '热热范围', '11', null, null);
 
 -- ----------------------------
 -- Table structure for django_admin_log
@@ -338,7 +226,7 @@ INSERT INTO `comment_messagecomment` VALUES ('15', '2019-02-28 00:37:57', '热�
 DROP TABLE IF EXISTS `django_admin_log`;
 CREATE TABLE `django_admin_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_time` datetime NOT NULL,
+  `action_time` datetime(6) NOT NULL,
   `object_id` longtext,
   `object_repr` varchar(200) NOT NULL,
   `action_flag` smallint(5) unsigned NOT NULL,
@@ -347,22 +235,62 @@ CREATE TABLE `django_admin_log` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  KEY `django_admin_log_user_id_c564eba6_fk_oauth_ouser_id` (`user_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_user_ouser_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_oauth_ouser_id` FOREIGN KEY (`user_id`) REFERENCES `oauth_ouser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_user_ouser_id` FOREIGN KEY (`user_id`) REFERENCES `user_ouser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_admin_log
 -- ----------------------------
-INSERT INTO `django_admin_log` VALUES ('1', '2019-03-02 14:12:49', '1', 'python', '1', '[{\"added\": {}}]', '8', '4');
-INSERT INTO `django_admin_log` VALUES ('2', '2019-03-02 14:16:02', '1', 'python', '1', '[{\"added\": {}}]', '12', '4');
-INSERT INTO `django_admin_log` VALUES ('3', '2019-03-02 14:17:30', '1', 'python', '1', '[{\"added\": {}}]', '10', '4');
-INSERT INTO `django_admin_log` VALUES ('4', '2019-03-02 14:18:07', '1', '创建Python虚拟环境——下', '1', '[{\"added\": {}}]', '6', '4');
-INSERT INTO `django_admin_log` VALUES ('5', '2019-03-02 15:21:45', '1', 'Python爬虫学习系列教程', '1', '[{\"added\": {}}]', '7', '4');
-INSERT INTO `django_admin_log` VALUES ('6', '2019-03-02 15:22:49', '2', '小白学爬虫系列教程', '1', '[{\"added\": {}}]', '7', '4');
-INSERT INTO `django_admin_log` VALUES ('7', '2019-03-02 15:50:00', '1', 'Python爬虫学习系列教程', '2', '[{\"changed\": {\"fields\": [\"number\"]}}]', '7', '4');
-INSERT INTO `django_admin_log` VALUES ('8', '2019-03-02 15:50:17', '2', '小白学爬虫系列教程', '2', '[{\"changed\": {\"fields\": [\"number\"]}}]', '7', '4');
+INSERT INTO `django_admin_log` VALUES ('1', '2019-11-28 09:52:13.243705', '1', 'Python', '1', '[{\"added\": {}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('2', '2019-11-28 10:26:35.425448', '1', 'Python', '2', '[{\"changed\": {\"fields\": [\"slug\"]}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('3', '2019-11-28 10:26:55.701012', '2', '数字媒体', '1', '[{\"added\": {}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('4', '2019-11-28 10:29:40.241540', '1', '生活笔记', '2', '[{\"changed\": {\"fields\": [\"name\", \"slug\"]}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('5', '2019-11-28 10:30:06.082270', '3', '技术分享', '1', '[{\"added\": {}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('6', '2019-11-28 10:30:42.934729', '1', '随笔', '1', '[{\"added\": {}}]', '10', '1');
+INSERT INTO `django_admin_log` VALUES ('7', '2019-11-28 10:30:59.030815', '2', 'Python', '1', '[{\"added\": {}}]', '10', '1');
+INSERT INTO `django_admin_log` VALUES ('8', '2019-11-28 10:31:09.337629', '3', 'java', '1', '[{\"added\": {}}]', '10', '1');
+INSERT INTO `django_admin_log` VALUES ('9', '2019-11-28 10:31:21.510678', '4', 'Git', '1', '[{\"added\": {}}]', '10', '1');
+INSERT INTO `django_admin_log` VALUES ('10', '2019-11-28 10:31:45.311332', '5', '作业相关', '1', '[{\"added\": {}}]', '10', '1');
+INSERT INTO `django_admin_log` VALUES ('11', '2019-11-28 10:37:50.553795', '1', 'Git|Github', '1', '[{\"added\": {}}]', '14', '1');
+INSERT INTO `django_admin_log` VALUES ('12', '2019-11-28 10:39:38.310039', '2', '生活笔记', '1', '[{\"added\": {}}]', '14', '1');
+INSERT INTO `django_admin_log` VALUES ('13', '2019-11-28 10:39:50.389780', '3', 'Python', '1', '[{\"added\": {}}]', '14', '1');
+INSERT INTO `django_admin_log` VALUES ('14', '2019-11-28 10:39:59.983671', '4', '作业', '1', '[{\"added\": {}}]', '14', '1');
+INSERT INTO `django_admin_log` VALUES ('15', '2019-11-28 10:48:21.639619', '1', '作业', '1', '[{\"added\": {}}]', '12', '1');
+INSERT INTO `django_admin_log` VALUES ('16', '2019-11-28 10:48:26.295519', '1', '作业一', '1', '[{\"added\": {}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('17', '2019-11-28 11:22:09.161449', '2', '作业二', '1', '[{\"added\": {}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('18', '2019-11-28 11:22:37.232150', '2', '作业二', '2', '[{\"changed\": {\"fields\": [\"body\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('19', '2019-11-28 11:29:50.070212', '1', '干就完事了', '1', '[{\"added\": {}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('20', '2019-11-28 11:30:28.053999', '2', '村第一二狗子', '1', '[{\"added\": {}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('21', '2019-11-28 11:31:23.934136', '1', '干就完事了', '2', '[{\"changed\": {\"fields\": [\"img_url\"]}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('22', '2019-11-28 11:31:30.437136', '2', '村第一二狗子', '2', '[{\"changed\": {\"fields\": [\"img_url\"]}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('23', '2019-11-28 11:32:23.986922', '3', '村第一韩信', '1', '[{\"added\": {}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('24', '2019-11-28 11:32:38.374221', '4', '村第一李白', '1', '[{\"added\": {}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('25', '2019-11-28 11:33:16.460077', '5', '村第一赵云', '1', '[{\"added\": {}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('26', '2019-11-28 11:34:18.194099', '1', '干就完事了', '2', '[{\"changed\": {\"fields\": [\"img_url\"]}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('27', '2019-11-28 11:35:05.363362', '1', '干就完事了', '2', '[{\"changed\": {\"fields\": [\"img_url\"]}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('28', '2019-11-28 11:35:44.114886', '1', '干就完事了', '2', '[{\"changed\": {\"fields\": [\"img_url\"]}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('29', '2019-11-28 11:36:31.620769', '1', '干就完事了', '2', '[{\"changed\": {\"fields\": [\"img_url\"]}}]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('30', '2019-11-28 11:36:58.053535', '1', '干就完事了', '2', '[]', '9', '1');
+INSERT INTO `django_admin_log` VALUES ('31', '2019-11-28 14:18:45.172177', '4', '关于KJ', '1', '[{\"added\": {}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('32', '2019-11-28 14:19:35.981473', '5', '资源分享', '1', '[{\"added\": {}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('33', '2019-11-28 14:20:15.514684', '6', '赞助KJ', '1', '[{\"added\": {}}]', '8', '1');
+INSERT INTO `django_admin_log` VALUES ('34', '2019-11-28 14:52:01.470000', '1', '作业一', '2', '[{\"changed\": {\"fields\": [\"body\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('35', '2019-11-28 14:52:02.401999', '1', '作业一', '2', '[]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('36', '2019-11-28 14:53:19.505988', '1', '作业一', '2', '[{\"changed\": {\"fields\": [\"body\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('37', '2019-11-28 14:54:52.772725', '2', '作业二', '2', '[{\"changed\": {\"fields\": [\"body\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('38', '2019-11-28 14:56:25.365297', '3', '作业三', '1', '[{\"added\": {}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('39', '2019-11-28 14:57:59.026920', '4', '作业四', '1', '[{\"added\": {}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('40', '2019-11-28 16:22:23.489063', '5', 'JAVA', '1', '[{\"added\": {}}]', '14', '1');
+INSERT INTO `django_admin_log` VALUES ('41', '2019-11-28 16:22:34.386063', '2', '笔记', '1', '[{\"added\": {}}]', '12', '1');
+INSERT INTO `django_admin_log` VALUES ('42', '2019-11-28 16:22:40.394755', '5', 'Head First Java', '1', '[{\"added\": {}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('43', '2019-11-28 16:23:10.284995', '6', 'python随笔', '1', '[{\"added\": {}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('44', '2019-11-28 16:34:23.523195', '6', 'python随笔', '2', '[{\"changed\": {\"fields\": [\"img_link\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('45', '2019-11-28 16:35:01.561785', '5', 'Head First Java', '2', '[{\"changed\": {\"fields\": [\"img_link\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('46', '2019-11-28 16:35:54.938210', '6', 'python随笔', '2', '[{\"changed\": {\"fields\": [\"img_link\"]}}]', '7', '1');
+INSERT INTO `django_admin_log` VALUES ('47', '2019-11-29 15:53:12.875570', '2', '测试', '1', '[{\"added\": {}}]', '20', '1');
+INSERT INTO `django_admin_log` VALUES ('48', '2019-11-29 16:22:23.275800', '3', '第二次测试', '1', '[{\"added\": {}}]', '20', '1');
 
 -- ----------------------------
 -- Table structure for django_content_type
@@ -374,13 +302,11 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_content_type
 -- ----------------------------
-INSERT INTO `django_content_type` VALUES ('21', 'account', 'emailaddress');
-INSERT INTO `django_content_type` VALUES ('22', 'account', 'emailconfirmation');
 INSERT INTO `django_content_type` VALUES ('1', 'admin', 'logentry');
 INSERT INTO `django_content_type` VALUES ('3', 'auth', 'group');
 INSERT INTO `django_content_type` VALUES ('2', 'auth', 'permission');
@@ -389,22 +315,18 @@ INSERT INTO `django_content_type` VALUES ('17', 'comment', 'articlecomment');
 INSERT INTO `django_content_type` VALUES ('18', 'comment', 'commentuser');
 INSERT INTO `django_content_type` VALUES ('19', 'comment', 'messagecomment');
 INSERT INTO `django_content_type` VALUES ('4', 'contenttypes', 'contenttype');
-INSERT INTO `django_content_type` VALUES ('15', 'oauth', 'ouser');
 INSERT INTO `django_content_type` VALUES ('5', 'sessions', 'session');
-INSERT INTO `django_content_type` VALUES ('20', 'sites', 'site');
-INSERT INTO `django_content_type` VALUES ('23', 'socialaccount', 'socialaccount');
-INSERT INTO `django_content_type` VALUES ('24', 'socialaccount', 'socialapp');
-INSERT INTO `django_content_type` VALUES ('25', 'socialaccount', 'socialtoken');
-INSERT INTO `django_content_type` VALUES ('26', 'storm', 'activate');
-INSERT INTO `django_content_type` VALUES ('6', 'storm', 'article');
-INSERT INTO `django_content_type` VALUES ('14', 'storm', 'bigcategory');
-INSERT INTO `django_content_type` VALUES ('7', 'storm', 'carousel');
-INSERT INTO `django_content_type` VALUES ('8', 'storm', 'category');
-INSERT INTO `django_content_type` VALUES ('9', 'storm', 'friendlink');
-INSERT INTO `django_content_type` VALUES ('10', 'storm', 'keyword');
-INSERT INTO `django_content_type` VALUES ('11', 'storm', 'silian');
-INSERT INTO `django_content_type` VALUES ('12', 'storm', 'tag');
-INSERT INTO `django_content_type` VALUES ('13', 'storm', 'timeline');
+INSERT INTO `django_content_type` VALUES ('6', 'storm', 'activate');
+INSERT INTO `django_content_type` VALUES ('7', 'storm', 'article');
+INSERT INTO `django_content_type` VALUES ('8', 'storm', 'bigcategory');
+INSERT INTO `django_content_type` VALUES ('9', 'storm', 'carousel');
+INSERT INTO `django_content_type` VALUES ('10', 'storm', 'category');
+INSERT INTO `django_content_type` VALUES ('11', 'storm', 'friendlink');
+INSERT INTO `django_content_type` VALUES ('12', 'storm', 'keyword');
+INSERT INTO `django_content_type` VALUES ('20', 'storm', 'resource');
+INSERT INTO `django_content_type` VALUES ('13', 'storm', 'silian');
+INSERT INTO `django_content_type` VALUES ('14', 'storm', 'tag');
+INSERT INTO `django_content_type` VALUES ('15', 'user', 'ouser');
 
 -- ----------------------------
 -- Table structure for django_migrations
@@ -414,45 +336,32 @@ CREATE TABLE `django_migrations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `applied` datetime NOT NULL,
+  `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_migrations
 -- ----------------------------
-INSERT INTO `django_migrations` VALUES ('1', 'contenttypes', '0001_initial', '2019-02-27 23:56:14');
-INSERT INTO `django_migrations` VALUES ('2', 'contenttypes', '0002_remove_content_type_name', '2019-02-27 23:56:15');
-INSERT INTO `django_migrations` VALUES ('3', 'auth', '0001_initial', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('4', 'auth', '0002_alter_permission_name_max_length', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('5', 'auth', '0003_alter_user_email_max_length', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('6', 'auth', '0004_alter_user_username_opts', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('7', 'auth', '0005_alter_user_last_login_null', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('8', 'auth', '0006_require_contenttypes_0002', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('9', 'auth', '0007_alter_validators_add_error_messages', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('10', 'auth', '0008_alter_user_username_max_length', '2019-02-27 23:56:16');
-INSERT INTO `django_migrations` VALUES ('11', 'oauth', '0001_initial', '2019-02-27 23:56:18');
-INSERT INTO `django_migrations` VALUES ('12', 'account', '0001_initial', '2019-02-27 23:56:18');
-INSERT INTO `django_migrations` VALUES ('13', 'account', '0002_email_max_length', '2019-02-27 23:56:19');
-INSERT INTO `django_migrations` VALUES ('14', 'admin', '0001_initial', '2019-02-27 23:56:19');
-INSERT INTO `django_migrations` VALUES ('15', 'admin', '0002_logentry_remove_auto_add', '2019-02-27 23:56:19');
-INSERT INTO `django_migrations` VALUES ('16', 'storm', '0001_initial', '2019-02-27 23:56:22');
-INSERT INTO `django_migrations` VALUES ('17', 'storm', '0002_islove', '2019-02-27 23:56:22');
-INSERT INTO `django_migrations` VALUES ('18', 'storm', '0003_auto_20190224_1541', '2019-02-27 23:56:23');
-INSERT INTO `django_migrations` VALUES ('19', 'storm', '0004_auto_20190224_1931', '2019-02-27 23:56:23');
-INSERT INTO `django_migrations` VALUES ('20', 'storm', '0005_auto_20190225_2105', '2019-02-27 23:56:23');
-INSERT INTO `django_migrations` VALUES ('21', 'storm', '0006_auto_20190225_2108', '2019-02-27 23:56:24');
-INSERT INTO `django_migrations` VALUES ('22', 'storm', '0007_auto_20190225_2117', '2019-02-27 23:56:25');
-INSERT INTO `django_migrations` VALUES ('23', 'storm', '0008_auto_20190225_2118', '2019-02-27 23:56:25');
-INSERT INTO `django_migrations` VALUES ('24', 'storm', '0009_auto_20190225_2123', '2019-02-27 23:56:26');
-INSERT INTO `django_migrations` VALUES ('25', 'comment', '0001_initial', '2019-02-27 23:56:30');
-INSERT INTO `django_migrations` VALUES ('26', 'sessions', '0001_initial', '2019-02-27 23:56:30');
-INSERT INTO `django_migrations` VALUES ('27', 'sites', '0001_initial', '2019-02-27 23:56:30');
-INSERT INTO `django_migrations` VALUES ('28', 'sites', '0002_alter_domain_unique', '2019-02-27 23:56:30');
-INSERT INTO `django_migrations` VALUES ('29', 'socialaccount', '0001_initial', '2019-02-27 23:56:32');
-INSERT INTO `django_migrations` VALUES ('30', 'socialaccount', '0002_token_max_lengths', '2019-02-27 23:56:33');
-INSERT INTO `django_migrations` VALUES ('31', 'socialaccount', '0003_extra_data_default_dict', '2019-02-27 23:56:33');
-INSERT INTO `django_migrations` VALUES ('32', 'storm', '0010_activate', '2019-03-01 00:52:42');
+INSERT INTO `django_migrations` VALUES ('1', 'contenttypes', '0001_initial', '2019-11-28 09:39:47.059815');
+INSERT INTO `django_migrations` VALUES ('2', 'contenttypes', '0002_remove_content_type_name', '2019-11-28 09:39:48.044408');
+INSERT INTO `django_migrations` VALUES ('3', 'auth', '0001_initial', '2019-11-28 09:39:51.542893');
+INSERT INTO `django_migrations` VALUES ('4', 'auth', '0002_alter_permission_name_max_length', '2019-11-28 09:39:52.509705');
+INSERT INTO `django_migrations` VALUES ('5', 'auth', '0003_alter_user_email_max_length', '2019-11-28 09:39:52.536691');
+INSERT INTO `django_migrations` VALUES ('6', 'auth', '0004_alter_user_username_opts', '2019-11-28 09:39:52.562720');
+INSERT INTO `django_migrations` VALUES ('7', 'auth', '0005_alter_user_last_login_null', '2019-11-28 09:39:52.586695');
+INSERT INTO `django_migrations` VALUES ('8', 'auth', '0006_require_contenttypes_0002', '2019-11-28 09:39:52.617114');
+INSERT INTO `django_migrations` VALUES ('9', 'auth', '0007_alter_validators_add_error_messages', '2019-11-28 09:39:52.667647');
+INSERT INTO `django_migrations` VALUES ('10', 'auth', '0008_alter_user_username_max_length', '2019-11-28 09:39:52.712884');
+INSERT INTO `django_migrations` VALUES ('11', 'user', '0001_initial', '2019-11-28 09:39:57.517819');
+INSERT INTO `django_migrations` VALUES ('12', 'admin', '0001_initial', '2019-11-28 09:39:59.941555');
+INSERT INTO `django_migrations` VALUES ('13', 'admin', '0002_logentry_remove_auto_add', '2019-11-28 09:39:59.977373');
+INSERT INTO `django_migrations` VALUES ('14', 'storm', '0001_initial', '2019-11-28 09:40:04.692245');
+INSERT INTO `django_migrations` VALUES ('15', 'comment', '0001_initial', '2019-11-28 09:40:13.550330');
+INSERT INTO `django_migrations` VALUES ('16', 'comment', '0002_auto_20190330_2030', '2019-11-28 09:40:21.439313');
+INSERT INTO `django_migrations` VALUES ('17', 'sessions', '0001_initial', '2019-11-28 09:40:21.994277');
+INSERT INTO `django_migrations` VALUES ('18', 'storm', '0002_auto_20190330_2030', '2019-11-28 09:40:29.461652');
+INSERT INTO `django_migrations` VALUES ('19', 'storm', '0003_auto_20191129_1457', '2019-11-29 14:58:20.590429');
 
 -- ----------------------------
 -- Table structure for django_session
@@ -461,7 +370,7 @@ DROP TABLE IF EXISTS `django_session`;
 CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
-  `expire_date` datetime NOT NULL,
+  `expire_date` datetime(6) NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -469,179 +378,7 @@ CREATE TABLE `django_session` (
 -- ----------------------------
 -- Records of django_session
 -- ----------------------------
-INSERT INTO `django_session` VALUES ('3wsc6krx3rz7ilxy1xvfqec717dqvtj0', 'YWYxZDA1YzFiMjllOTYwOGU2ZDYwOGUyMzI1NTI3MGI5YTYxZTFjYjp7InVzZXJuYW1lIjoiYXNkZmdoIiwiX2F1dGhfdXNlcl9pZCI6IjMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6IjVjNWM5MDgwNTEyNjFiMmRkMGY0ZmJjOTczMTBiZTU1NzU2MDViNWIifQ==', '2019-03-16 00:26:58');
-INSERT INTO `django_session` VALUES ('b78k09ji2epez6puu791krmla2djzecn', 'MGJjOWFhNmNmMDFiZjY3ZmNjNjdjM2JkMzg2MDE0OWZjY2Y5ZTIzNjp7ImlzX3JlYWRfMSI6MTU1MTU5ODI4MC43MjYxOTI1LCJfYXV0aF91c2VyX2lkIjoiNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZDUzMzc5ZTU2OWZkNzZmNWI0MTA5YzZiMGRiYjU4OGFiNzEyYzRiMSIsIm5pY2siOiJjcmVhdCIsInRpZCI6MjN9', '2019-03-17 15:31:20');
-INSERT INTO `django_session` VALUES ('oaua1waqtm0mgimsp3s80chnxy3w4rck', 'MDczYTkyZDg4OWRjNWM5NzhhZjI3YTJjOTFlNmZmOTk4NDkxMjQxYzp7ImlzX3JlYWRfMSI6MTU1MTUzMDY4Ni44MzMwNTl9', '2019-03-16 20:44:47');
-INSERT INTO `django_session` VALUES ('oq8oj0rh7tw4cakb8ctzdhq4uck1mkwy', 'MWQ5YTRjNTRlM2UwZDE3ZDcyMWNjN2YyMDYzNDVhODM0NTI0NTk4ZTp7ImlzX3JlYWRfMSI6MTU1MTYxNjEwMC40MzQ1MDgsImlzX3JlYWRfNiI6MTU1MTYxNjEyMC43NDYxNzIyLCJpc19yZWFkXzMiOjE1NTE2MTgyNDIuMzU5NDg5NywibmljayI6Ilx1NWY5N1x1NTIwNiIsInRpZCI6MTB9', '2019-03-17 21:04:02');
-INSERT INTO `django_session` VALUES ('qw2y9tgt61k93fpvwx7zqj69yhg2wec1', 'NmZkNDE0YmVlMDk5NWI0MWE1MDYxNGYxNGQ0ODI1ZDBhZjkwOWMzYTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNTMzNzllNTY5ZmQ3NmY1YjQxMDljNmIwZGJiNTg4YWI3MTJjNGIxIiwidXNlcm5hbWUiOiJjcmVhdGVzdXBlcnVzZXIiLCJ1aWQiOjQsIm5pY2siOm51bGwsInRpZCI6bnVsbCwiaXNfcmVhZF8xIjoxNTUxNjk0OTU0LjIxMDk3MDJ9', '2019-03-18 18:22:34');
-INSERT INTO `django_session` VALUES ('t4d2m6tfq5soo4si2din95s5iqhn90ys', 'YWI2NTUzNDhhZTgwYmEwODE0N2YzZWM2N2QyNDUyYjYzMDdmM2M1NTp7ImlzX3JlYWRfMSI6MTU1MTYxNTc1My4wNjE0NTE3LCJpc19yZWFkXzQiOjE1NTE2MTU3NjMuNzE3NDgxMSwiaXNfcmVhZF82IjoxNTUxNjE1ODM1LjI2Mzk5Nzh9', '2019-03-17 20:23:55');
-INSERT INTO `django_session` VALUES ('uw0xjg2rhi2flcvaw1ntkwtmgosqthbk', 'Y2ViZDNhMWVmNmMyMWM2NGVlZGNlZGM5YjVkNzVjZTE3ODdhY2JmOTp7ImlzX3JlYWRfMSI6MTU1MTUyNDA2Ny41OTIxNTc4LCJuaWNrIjpudWxsLCJ0aWQiOm51bGwsIl9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNTMzNzllNTY5ZmQ3NmY1YjQxMDljNmIwZGJiNTg4YWI3MTJjNGIxIiwidXNlcm5hbWUiOiJjcmVhdGVzdXBlcnVzZXIiLCJ1aWQiOjR9', '2019-03-16 18:55:27');
-
--- ----------------------------
--- Table structure for django_site
--- ----------------------------
-DROP TABLE IF EXISTS `django_site`;
-CREATE TABLE `django_site` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `domain` varchar(100) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `django_site_domain_a2e37b91_uniq` (`domain`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of django_site
--- ----------------------------
-INSERT INTO `django_site` VALUES ('1', 'example.com', 'example.com');
-
--- ----------------------------
--- Table structure for oauth_ouser
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_ouser`;
-CREATE TABLE `oauth_ouser` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(128) NOT NULL,
-  `last_login` datetime DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL,
-  `username` varchar(150) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
-  `last_name` varchar(30) NOT NULL,
-  `email` varchar(254) NOT NULL,
-  `is_staff` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime NOT NULL,
-  `link` varchar(200) NOT NULL,
-  `avatar` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oauth_ouser
--- ----------------------------
-INSERT INTO `oauth_ouser` VALUES ('1', 'pbkdf2_sha256$36000$P2Mt91Hx3fg2$c0VBYH+zIB2shdRrNT3OidoluZgta/2uTFjAZPfBVIU=', '2019-03-02 00:16:48', '0', 'stormsha', '', '', '1414749109@qq.com', '0', '1', '2019-03-02 00:16:47', '', 'avatar/default.png');
-INSERT INTO `oauth_ouser` VALUES ('2', 'pbkdf2_sha256$36000$ZZmzUMz2lTpm$0xadcPRoeFUHZWxNkvh18mklwhjizMAQbhlsUAx0tJ8=', '2019-03-02 00:26:14', '0', 'storm', '', '', '1414749110@qq.com', '0', '1', '2019-03-02 00:22:46', '', 'avatar/default.png');
-INSERT INTO `oauth_ouser` VALUES ('3', 'pbkdf2_sha256$36000$O8WvIJBxZqOR$0KbWOH6FUiwk8kFjQ/sGye2riwYi3nJEpXT3VWcGe+8=', '2019-03-02 13:55:17', '0', 'asdfgh', '', '', 'stormsha6@gmail.com', '0', '1', '2019-03-02 00:26:58', '', 'avatar/default.png');
-INSERT INTO `oauth_ouser` VALUES ('4', 'pbkdf2_sha256$36000$zNEBARjVIhN3$BXXLsLtWIxfhmEyvOnTmtWFbiQeCnrtW0Jy02Try2jU=', '2019-03-04 15:52:55', '1', 'createsuperuser', '', '', '1414749109@qq.com', '1', '1', '2019-03-02 14:08:45', '', 'avatar/2019/03/02/微信图片_20190301204333.jpg');
-
--- ----------------------------
--- Table structure for oauth_ouser_groups
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_ouser_groups`;
-CREATE TABLE `oauth_ouser_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ouser_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `oauth_ouser_groups_ouser_id_group_id_4a9e5409_uniq` (`ouser_id`,`group_id`),
-  KEY `oauth_ouser_groups_group_id_ee861e08_fk_auth_group_id` (`group_id`),
-  CONSTRAINT `oauth_ouser_groups_group_id_ee861e08_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  CONSTRAINT `oauth_ouser_groups_ouser_id_c543bcdc_fk_oauth_ouser_id` FOREIGN KEY (`ouser_id`) REFERENCES `oauth_ouser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oauth_ouser_groups
--- ----------------------------
-
--- ----------------------------
--- Table structure for oauth_ouser_user_permissions
--- ----------------------------
-DROP TABLE IF EXISTS `oauth_ouser_user_permissions`;
-CREATE TABLE `oauth_ouser_user_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ouser_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `oauth_ouser_user_permiss_ouser_id_permission_id_ab6b2ccc_uniq` (`ouser_id`,`permission_id`),
-  KEY `oauth_ouser_user_per_permission_id_2b5b927f_fk_auth_perm` (`permission_id`),
-  CONSTRAINT `oauth_ouser_user_permissions_ouser_id_12e23549_fk_oauth_ouser_id` FOREIGN KEY (`ouser_id`) REFERENCES `oauth_ouser` (`id`),
-  CONSTRAINT `oauth_ouser_user_per_permission_id_2b5b927f_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of oauth_ouser_user_permissions
--- ----------------------------
-
--- ----------------------------
--- Table structure for socialaccount_socialaccount
--- ----------------------------
-DROP TABLE IF EXISTS `socialaccount_socialaccount`;
-CREATE TABLE `socialaccount_socialaccount` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `provider` varchar(30) NOT NULL,
-  `uid` varchar(191) NOT NULL,
-  `last_login` datetime NOT NULL,
-  `date_joined` datetime NOT NULL,
-  `extra_data` longtext NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `socialaccount_socialaccount_provider_uid_fc810c6e_uniq` (`provider`,`uid`),
-  KEY `socialaccount_socialaccount_user_id_8146e70c_fk_oauth_ouser_id` (`user_id`),
-  CONSTRAINT `socialaccount_socialaccount_user_id_8146e70c_fk_oauth_ouser_id` FOREIGN KEY (`user_id`) REFERENCES `oauth_ouser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of socialaccount_socialaccount
--- ----------------------------
-
--- ----------------------------
--- Table structure for socialaccount_socialapp
--- ----------------------------
-DROP TABLE IF EXISTS `socialaccount_socialapp`;
-CREATE TABLE `socialaccount_socialapp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `provider` varchar(30) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `client_id` varchar(191) NOT NULL,
-  `secret` varchar(191) NOT NULL,
-  `key` varchar(191) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of socialaccount_socialapp
--- ----------------------------
-
--- ----------------------------
--- Table structure for socialaccount_socialapp_sites
--- ----------------------------
-DROP TABLE IF EXISTS `socialaccount_socialapp_sites`;
-CREATE TABLE `socialaccount_socialapp_sites` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `socialapp_id` int(11) NOT NULL,
-  `site_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `socialaccount_socialapp_sites_socialapp_id_site_id_71a9a768_uniq` (`socialapp_id`,`site_id`),
-  KEY `socialaccount_socialapp_sites_site_id_2579dee5_fk_django_site_id` (`site_id`),
-  CONSTRAINT `socialaccount_socialapp_sites_site_id_2579dee5_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`),
-  CONSTRAINT `socialaccount_social_socialapp_id_97fb6e7d_fk_socialacc` FOREIGN KEY (`socialapp_id`) REFERENCES `socialaccount_socialapp` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of socialaccount_socialapp_sites
--- ----------------------------
-
--- ----------------------------
--- Table structure for socialaccount_socialtoken
--- ----------------------------
-DROP TABLE IF EXISTS `socialaccount_socialtoken`;
-CREATE TABLE `socialaccount_socialtoken` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `token` longtext NOT NULL,
-  `token_secret` longtext NOT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  `account_id` int(11) NOT NULL,
-  `app_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `socialaccount_socialtoken_app_id_account_id_fca4e0ac_uniq` (`app_id`,`account_id`),
-  KEY `socialaccount_social_account_id_951f210e_fk_socialacc` (`account_id`),
-  CONSTRAINT `socialaccount_social_account_id_951f210e_fk_socialacc` FOREIGN KEY (`account_id`) REFERENCES `socialaccount_socialaccount` (`id`),
-  CONSTRAINT `socialaccount_social_app_id_636a42d7_fk_socialacc` FOREIGN KEY (`app_id`) REFERENCES `socialaccount_socialapp` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of socialaccount_socialtoken
--- ----------------------------
+INSERT INTO `django_session` VALUES ('q59kv43awe5y6lywihsme64biy9g0fo0', 'ODk4Y2Q1MDY0ZDg4MWFiNjliN2Y3OTg0NWFlY2Y1MDM3NDM5NDBjNTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5YWMyMjNjMjk3MWI2NTc4MjBlODk0ODA0ZjRiYmMzNjM2ODM0Y2FlIiwidXNlcm5hbWUiOiJtbW1ra2tqamoiLCJ1aWQiOjIsIm5pY2siOm51bGwsInRpZCI6bnVsbH0=', '2019-12-17 11:14:50.414412');
 
 -- ----------------------------
 -- Table structure for storm_activate
@@ -651,14 +388,13 @@ CREATE TABLE `storm_activate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` longtext,
   `is_active` tinyint(1) NOT NULL,
-  `add_date` datetime NOT NULL,
+  `add_date` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_activate
 -- ----------------------------
-INSERT INTO `storm_activate` VALUES ('1', '本站源码已经共享在 <a href=\"https://github.com/stormsha\" target=\"_blank\">Github</a> 欢迎 Fork、Star、提建议、发现Bug', '1', '2019-03-06 00:53:46');
 
 -- ----------------------------
 -- Table structure for storm_article
@@ -670,35 +406,30 @@ CREATE TABLE `storm_article` (
   `summary` longtext NOT NULL,
   `body` longtext NOT NULL,
   `img_link` varchar(255) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` datetime NOT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `update_date` datetime(6) NOT NULL,
   `views` int(11) NOT NULL,
+  `loves` int(11) NOT NULL,
   `slug` varchar(50) NOT NULL,
   `author_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `loves` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
-  KEY `storm_article_author_id_113892f7_fk_oauth_ouser_id` (`author_id`),
+  KEY `storm_article_author_id_113892f7_fk_user_ouser_id` (`author_id`),
   KEY `storm_article_category_id_c56e32c4_fk_storm_category_id` (`category_id`),
-  CONSTRAINT `storm_article_author_id_113892f7_fk_oauth_ouser_id` FOREIGN KEY (`author_id`) REFERENCES `oauth_ouser` (`id`),
+  CONSTRAINT `storm_article_author_id_113892f7_fk_user_ouser_id` FOREIGN KEY (`author_id`) REFERENCES `user_ouser` (`id`),
   CONSTRAINT `storm_article_category_id_c56e32c4_fk_storm_category_id` FOREIGN KEY (`category_id`) REFERENCES `storm_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_article
 -- ----------------------------
-INSERT INTO `storm_article` VALUES ('1', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 18:22:44', '22', '123', '1', '1', '4');
-INSERT INTO `storm_article` VALUES ('2', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 18:24:14', '15', '124', '1', '1', '3');
-INSERT INTO `storm_article` VALUES ('3', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 15:03:30', '17', '125', '1', '1', '1');
-INSERT INTO `storm_article` VALUES ('4', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 15:03:35', '16', '126', '1', '1', '2');
-INSERT INTO `storm_article` VALUES ('5', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 18:23:19', '15', '127', '1', '1', '5');
-INSERT INTO `storm_article` VALUES ('6', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 15:03:44', '17', '128', '1', '1', '1');
-INSERT INTO `storm_article` VALUES ('7', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 18:23:18', '15', '129', '1', '1', '3');
-INSERT INTO `storm_article` VALUES ('8', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 18:22:17', '15', '130', '1', '1', '1');
-INSERT INTO `storm_article` VALUES ('9', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-04 18:23:32', '15', '131', '1', '1', '2');
-INSERT INTO `storm_article` VALUES ('10', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-02 14:18:07', '15', '132', '1', '1', '0');
-INSERT INTO `storm_article` VALUES ('11', '创建Python虚拟环境——下', 'Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。', '##Python应用程序开发中，如果系统只安装了Python3.6.6。Python的优势之一是有众多的开源包，但是这也成为了Python的一大诟病。当开发者使用pip安装第三方包时，所安装的包会进入Python安装目录下的site-packages目录中。\r\n假如需要同时开发多个应用程序，这些应用程序将会共用一个Python环境，就是安装在系统的Python 3.6.6。如果应用A需要django==1.8.2，应用B需要django==2.0怎么办？\r\n这种情况下，每个应用需要各有一个“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。\r\n\r\n1、	python虚拟环境—virtualenv\r\nvirtualenv 是一个创建隔离Python开发环境的工具。virtualenv创建一个包含所有必要的可执行文件的文件夹，用来使用Python工程所需要的依赖包。\r\n安装virtualenv\r\npip install virtualenv\r\n	 \r\n	安装完成后输入virtualenv按下回车，了解virtualenv的基本功能选项\r\n基本使用：\r\n虚拟 环境是可以随处放置的，进入需要放置的文件夹，点击右键选择“在此处打开shell窗口” 或者 打开cmd 通过cd 进入需要放置的文件夹\r\n$ virtualenv venv    # venv  虚拟环境名称，名称自定义，默认创建一个干净的环境\r\n \r\n$ virtualenv --system-site-packages venv  # 创建一个包含本地已经安装的依赖包的虚拟环境\r\n\r\n\r\n \r\nvirtualenv -p E:\\Python36\\python.exe venv\r\n\r\n查看本地已经安装的python环境\r\n \r\n\r\n \r\n\r\n退出虚拟环境\r\n\r\n2、	安装virtualenvwrapper对虚拟环境集中管理\r\n\r\npip install virtualenvwrapper-win\r\n\r\n	配置环境变量\r\n\r\n	打开环境变量，在系统环境变量中点击新建\r\n \r\n\r\n创建虚拟环境\r\nmkvirtualenv venv　\r\n\r\n查看已经创建过的虚拟环境\r\nworkon\r\n\r\n启动虚拟环境\r\nworkon venv\r\n\r\n退出虚拟环境\r\nDeactivate\r\n\r\n删除虚拟环境\r\nrmvirtualenv venv', '/static/images/summary.jpg', '2019-03-02 14:18:07', '2019-03-02 14:18:07', '15', '133', '1', '1', '0');
+INSERT INTO `storm_article` VALUES ('1', '作业一', '数字媒体第一次作业', '#音频采集与处理（20分）\r\n##要求：\r\n- 用Windows录音机录制一首自己唱的歌或朗诵，准备一段背景音乐，使用Cool Edit导入录制的声音文件和背景音乐，并进行合成。\r\n##提交内容：\r\n- 背景音乐文件、声音文件、合成作品、实验报告（电子版+打印版）。', '/static/images/summary.jpg', '2019-11-28 10:48:24.021442', '2019-11-28 16:36:15.232689', '0', '3', 'homework1', '1', '5');
+INSERT INTO `storm_article` VALUES ('2', '作业二', '数字媒体第二次作业', '#图像处理（20分）\r\n##要求：\r\n- 1. 选取适当的图片素材和世界地图，运用各种选取方法制作一幅由世界名胜照片揉和在一起的背景。利用图层效果制作一幅有地形质感的世界地图。调整并合并所有层存储为各种图像文件格式并压缩。\r\n- 2. 显示一个bmp文件的C程序，并实现图像亮度、对比度调整、图像平移、放大、旋转和镜像。\r\n##提交内容：\r\n- 图片素材、合成图片、显示bmp的程序代码、显示bmp的可执行文件、实验报告（电子版+打印版）。', '/static/images/summary.jpg', '2019-11-28 11:22:08.938966', '2019-11-28 15:06:01.372860', '0', '2', 'homework2', '1', '5');
+INSERT INTO `storm_article` VALUES ('3', '作业三', '数字媒体第三次作业', '#动画制作（30分）\r\n##要求：\r\n- 根据实验1中得到的歌曲或配乐朗诵，做一段Flash不少于1分半钟，并合成为一段动画MV。\r\n##提交内容：\r\n- 根据实验1中得到的歌曲或配乐朗诵，做一段Flash不少于1分半钟，并合成为一段动画MV。', '/static/images/summary.jpg', '2019-11-28 14:56:24.064296', '2019-11-28 14:56:24.064296', '0', '0', 'homework3', '1', '5');
+INSERT INTO `storm_article` VALUES ('4', '作业四', '数字媒体第四次作业', '#网站制作（30分）\r\n##要求：\r\n- 个人页面开发，包含个人基本信息，整个课程的各次实验信息，并实现媒体文件上传、下载功能实现。\r\n##提交内容：\r\n- 网页制作素材、网页源代码、实验报告（电子版+打印版）。', '/static/images/summary.jpg', '2019-11-28 14:57:58.427918', '2019-11-28 14:57:58.427918', '0', '0', 'homework4', '1', '5');
+INSERT INTO `storm_article` VALUES ('5', 'Head First Java', '对 Head First Java 的一些阅读笔记', '# 一 基本概念\r\n\r\n## 一些问答\r\n\r\n- __java不可以做整数类型测试__\r\n    java中的integer 和 boolean 两种类型并不相容\r\n\r\n# 二 类与对象\r\n\r\n## java会拾荒\r\n-   创建对象时，它会被存放在堆区   不管对象如何创建都在堆区中。这个堆时可回收垃圾堆。java会根据对象的大小来分配内存空间。 当某个对象被java 虚拟机察觉不再被使用时，该对象被标记为可回收。如果内存开始不足，垃圾收集器就会启动来清理垃圾，让空间能够再次被使用。\r\n\r\n## 一些问答\r\n\r\n- __全局变量?__\r\n  java 面向对象中并没有全局变量。但是实际会需要一些方法或者变量（常量） 可被任何的程序存取。在任何类的任何程序中都可以存取public static 的方法。任何变量只要加上public static 和 final，基本都会变成全局变量取用的常量。\r\n\r\n- __char  C语言8bit   java 16bit__\r\n- __注意 除非带上f  要不然所有小数值均会当作double处理  32.0f 为float类型__\r\n\r\n\r\n\r\n\r\n# 六 认识java的API\r\n\r\n## 一些问答\r\n\r\n-   __使用import会把程序变大吗__、\r\n    import和C的include并不相同，使用import只是帮你节省下来每个类前面的包名称而已，程序不会因为用了import而变大变慢 \r\n-   **为何不必import进String类**\r\n\r\n    因为java.lang是个经常会用到的基础包，会被预先引用，所以可不必指定名称。\r\n\r\n------------------------------------\r\n## 一些记录\r\n-   将类中的某个方法标上final 表示这个方法不可被覆盖  如果将整个类标上final 则这个类不可被继承，即所有的方法都不可被覆盖\r\n\r\n# 七 继承和多态\r\n\r\n-   重载版的方法只是刚好有相同名字的不同方法，它与继承和多态无关。  \r\n\r\n-   抽象类不可被初始化  声明抽象类只需在前边加上 abstract\r\n-   抽象的类表明该类必须被extend过，抽象的方法表明此方法一定要被覆盖过。\r\n```\r\n    public abstract void eat();\r\n    没有方法体  抽象方法\r\n```\r\n- 注意!! 如果你声明一个抽象的方法，必须将类也标记为抽象的  不能再非抽象类中拥有抽象方法\r\n\r\n- 如果将A B  两个类都标记为abstract  B extend A  那么 B不需要实现A的方法，C extend B  C需要实现A 和 B的抽象方法\r\n\r\n-   使用instanceof 检查类型\r\n```\r\n    if (o instanceof Dog){\r\n        Dog d = (Dog) o;\r\n    }\r\n```\r\n# 九构造器\r\n\r\n## 一些记录\r\n\r\n- 当你写了一个带有参数的构造函数时，如果你想用一个没有参数的构造函数，那么你必须自己写一个，编译器不会帮你写好\r\n-   调用父类的构造函数的唯一方法时调用super()\r\n-   this() 和 super() 只能用在构造函数中，且必须为第一行，但两者不能同时存在\r\n\r\n# 十 数字局静态\r\n\r\n-   **Math方法:最接近全局的方法**\r\n在Math这个类中的所有方法都不需要实例变量值。因为这些方法都是静态的。你只会用到它的类本身\r\n\r\n- 以类的名字调用静态方法 | 以引用变量的名称调用非静态方法\r\n\r\n-   将构造函数设置为私有，则在外部就无法创建这个类的实例对象，Math类就是这样\r\n-   静态变量是共享的，同意类的所有实例共享一份静态变量\r\n-   设计一个只能创建一个唯一实例的类--单例模式\r\n> 单例模式：http://www.360doc.com/content/14/0218/15/7669533_353538758.shtml\r\n\r\n\r\n-   静态方法不能调用非静态方法和变量\r\n-   在java中的常量是把变量同时标成static 和 final\r\n-   \'<\' 告诉格式化程序重复利用之前的参数\r\n```\r\n    Date today = new Date();\r\n    String.format(\"%tA,%<tB %<td\",today);\r\n```\r\n# 十六 集合与泛型\r\n\r\n## 关于泛型\r\n- 创建被泛型化类的实例：\r\n\r\n```\r\n    new ArrayList<Song>()\r\n```\r\n- 声明与指定泛型类型的变量\r\n\r\n```\r\n    List<Song> songList = \r\n            new ArrayList<Song>()\r\n```\r\n- 声明（与调用）取用泛型类型的方法\r\n```\r\n    void foo(List<Song>list)\r\n    x.foo(songList)\r\n```\r\n- 一种方法的声明：\r\n```\r\n    public <T extends Animal> void takeThing(ArrayList<T> list)\r\n\r\n    区别于\r\n\r\n    public void takeThing(ArrayList<Animal> list)\r\n\r\n    // <T extends Animal> 是方法声明的一部分\r\n```\r\n- 万用字符  wildcard\r\n```\r\n public void takeAnimals(ArrayList<? extends Animal> animals){\r\n     for(Animal a: animals){\r\n         a.eat()\r\n     }\r\n }\r\n\r\n //这里extends 同时表示继承和实现。如果取用有实现Pet这个接口的ArrayList 声明如下：\r\n\r\n ArrayList<? extends Pet>\r\n```\r\n- ps： 实际使用带有<?>声明时，编译器不会让你添加任何东西到集合中，即你无法在DOG集合里添加CAT\r\n\r\n- head first for java p575\r\n\r\n# 十七 打包 jar 存档文件和部署', '/static/images/sciens.jpg', '2019-11-28 16:22:37.002061', '2019-11-28 16:35:01.073796', '0', '0', 'head-first-java', '1', '3');
+INSERT INTO `storm_article` VALUES ('6', 'python随笔', '测试用', '大师傅似的', '/static/images/timthumb5.jpg', '2019-11-28 16:23:10.057990', '2019-11-28 16:35:54.833213', '0', '0', 'python-test', '1', '2');
 
 -- ----------------------------
 -- Table structure for storm_article_keywords
@@ -713,12 +444,17 @@ CREATE TABLE `storm_article_keywords` (
   KEY `storm_article_keywords_keyword_id_a563777a_fk_storm_keyword_id` (`keyword_id`),
   CONSTRAINT `storm_article_keywords_article_id_5df25258_fk_storm_article_id` FOREIGN KEY (`article_id`) REFERENCES `storm_article` (`id`),
   CONSTRAINT `storm_article_keywords_keyword_id_a563777a_fk_storm_keyword_id` FOREIGN KEY (`keyword_id`) REFERENCES `storm_keyword` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_article_keywords
 -- ----------------------------
 INSERT INTO `storm_article_keywords` VALUES ('1', '1', '1');
+INSERT INTO `storm_article_keywords` VALUES ('2', '2', '1');
+INSERT INTO `storm_article_keywords` VALUES ('3', '3', '1');
+INSERT INTO `storm_article_keywords` VALUES ('4', '4', '1');
+INSERT INTO `storm_article_keywords` VALUES ('5', '5', '2');
+INSERT INTO `storm_article_keywords` VALUES ('6', '6', '2');
 
 -- ----------------------------
 -- Table structure for storm_article_tags
@@ -733,16 +469,17 @@ CREATE TABLE `storm_article_tags` (
   KEY `storm_article_tags_tag_id_e8380d38_fk_storm_tag_id` (`tag_id`),
   CONSTRAINT `storm_article_tags_article_id_15b9f147_fk_storm_article_id` FOREIGN KEY (`article_id`) REFERENCES `storm_article` (`id`),
   CONSTRAINT `storm_article_tags_tag_id_e8380d38_fk_storm_tag_id` FOREIGN KEY (`tag_id`) REFERENCES `storm_tag` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_article_tags
 -- ----------------------------
-INSERT INTO `storm_article_tags` VALUES ('1', '1', '1');
-INSERT INTO `storm_article_tags` VALUES ('2', '2', '1');
-INSERT INTO `storm_article_tags` VALUES ('3', '3', '1');
-INSERT INTO `storm_article_tags` VALUES ('4', '4', '1');
-INSERT INTO `storm_article_tags` VALUES ('5', '5', '1');
+INSERT INTO `storm_article_tags` VALUES ('1', '1', '4');
+INSERT INTO `storm_article_tags` VALUES ('2', '2', '4');
+INSERT INTO `storm_article_tags` VALUES ('3', '3', '4');
+INSERT INTO `storm_article_tags` VALUES ('4', '4', '4');
+INSERT INTO `storm_article_tags` VALUES ('5', '5', '5');
+INSERT INTO `storm_article_tags` VALUES ('6', '6', '3');
 
 -- ----------------------------
 -- Table structure for storm_bigcategory
@@ -753,22 +490,20 @@ CREATE TABLE `storm_bigcategory` (
   `name` varchar(20) NOT NULL,
   `slug` varchar(50) NOT NULL,
   `description` longtext NOT NULL,
+  `keywords` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_bigcategory
 -- ----------------------------
-INSERT INTO `storm_bigcategory` VALUES ('1', '生活笔记', 'life', '生活笔记');
-INSERT INTO `storm_bigcategory` VALUES ('2', '技术杂谈', 'technique', '技术杂谈');
-INSERT INTO `storm_bigcategory` VALUES ('3', '福利专区', 'resources', '福利专区');
-INSERT INTO `storm_bigcategory` VALUES ('4', '关于自己', 'about', '关于自己');
-INSERT INTO `storm_bigcategory` VALUES ('5', '给我留言', 'message', '给我留言');
-INSERT INTO `storm_bigcategory` VALUES ('6', '赞助作者', 'donate', '赞助作者');
-INSERT INTO `storm_bigcategory` VALUES ('7', '技术交流', 'exchange', '技术交流');
-INSERT INTO `storm_bigcategory` VALUES ('8', '提问交流', 'question', '提问交流');
-INSERT INTO `storm_bigcategory` VALUES ('9', '项目合作', 'project', '项目合作');
+INSERT INTO `storm_bigcategory` VALUES ('1', '生活笔记', 'life', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', 'KJ,静觅,网络,IT,技术,博客,Python');
+INSERT INTO `storm_bigcategory` VALUES ('2', '数字媒体', 'sz', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', 'KJ,静觅,网络,IT,技术,博客,Python');
+INSERT INTO `storm_bigcategory` VALUES ('3', '技术分享', 'technique', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', 'KJ,静觅,网络,IT,技术,博客,Python');
+INSERT INTO `storm_bigcategory` VALUES ('4', '关于KJ', 'about', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', 'KJ,静觅,网络,IT,技术,博客,Python');
+INSERT INTO `storm_bigcategory` VALUES ('5', '资源分享', 'resource', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', 'KJ,静觅,网络,IT,技术,博客,Python');
+INSERT INTO `storm_bigcategory` VALUES ('6', '赞助KJ', 'donate', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', 'KJ,静觅,网络,IT,技术,博客,Python');
 
 -- ----------------------------
 -- Table structure for storm_carousel
@@ -782,18 +517,16 @@ CREATE TABLE `storm_carousel` (
   `img_url` varchar(200) NOT NULL,
   `url` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_carousel
 -- ----------------------------
-INSERT INTO `storm_carousel` VALUES ('1', '6', 'Python爬虫学习系列教程', 'Python爬虫学习系列教程', '/static/images/right1.jpg', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `storm_carousel` VALUES ('2', '7', '小白学爬虫系列教程', '小白学爬虫系列教程', '/static/images/right2.jpg', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `storm_carousel` VALUES ('3', '1', '小白学爬虫系列教程', '小白学爬虫系列教程', '/static/images/docker.jpg', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `storm_carousel` VALUES ('4', '2', '小白学爬虫系列教程', '小白学爬虫系列教程', '/static/images/python-django-logo.jpg', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `storm_carousel` VALUES ('5', '3', '小白学爬虫系列教程', '小白学爬虫系列教程', '/static/images/bsblog.png', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `storm_carousel` VALUES ('6', '4', '小白学爬虫系列教程', '小白学爬虫系列教程', '/static/images/right3.jpg', 'http://127.0.0.1:8080/article/123/');
-INSERT INTO `storm_carousel` VALUES ('7', '5', '小白学爬虫系列教程', '小白学爬虫系列教程', '/static/images/right4.jpg', 'http://127.0.0.1:8080/article/123/');
+INSERT INTO `storm_carousel` VALUES ('1', '1', 'KJ', '干就完事了', 'http://127.0.0.1:8000/static/images/index1.jpg', '#');
+INSERT INTO `storm_carousel` VALUES ('2', '2', 'KJ', '村第一二狗子', 'http://127.0.0.1:8000/static/images/index2.jpg', '#');
+INSERT INTO `storm_carousel` VALUES ('3', '3', 'KJ', '村第一韩信', 'http://127.0.0.1:8000/static/images/index3.jpg', '#');
+INSERT INTO `storm_carousel` VALUES ('4', '4', 'KJ', '村第一李白', 'http://127.0.0.1:8000/static/images/index4.jpg', '#');
+INSERT INTO `storm_carousel` VALUES ('5', '5', 'KJ', '村第一赵云', 'http://127.0.0.1:8000/static/images/index5.jpg', '#');
 
 -- ----------------------------
 -- Table structure for storm_category
@@ -809,12 +542,16 @@ CREATE TABLE `storm_category` (
   UNIQUE KEY `slug` (`slug`),
   KEY `storm_category_bigcategory_id_aa573836_fk_storm_bigcategory_id` (`bigcategory_id`),
   CONSTRAINT `storm_category_bigcategory_id_aa573836_fk_storm_bigcategory_id` FOREIGN KEY (`bigcategory_id`) REFERENCES `storm_bigcategory` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_category
 -- ----------------------------
-INSERT INTO `storm_category` VALUES ('1', 'python', 'python', 'StormSha的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', '2');
+INSERT INTO `storm_category` VALUES ('1', '随笔', 'notes', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', '1');
+INSERT INTO `storm_category` VALUES ('2', 'Python', 'python', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', '3');
+INSERT INTO `storm_category` VALUES ('3', 'java', 'java', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', '3');
+INSERT INTO `storm_category` VALUES ('4', 'Git', 'git', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', '3');
+INSERT INTO `storm_category` VALUES ('5', '作业相关', 'homework', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好', '2');
 
 -- ----------------------------
 -- Table structure for storm_friendlink
@@ -826,7 +563,7 @@ CREATE TABLE `storm_friendlink` (
   `description` varchar(100) NOT NULL,
   `link` varchar(200) NOT NULL,
   `logo` varchar(200) NOT NULL,
-  `create_date` datetime NOT NULL,
+  `create_date` datetime(6) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `is_show` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
@@ -844,12 +581,37 @@ CREATE TABLE `storm_keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_keyword
 -- ----------------------------
-INSERT INTO `storm_keyword` VALUES ('1', 'python');
+INSERT INTO `storm_keyword` VALUES ('1', '作业');
+INSERT INTO `storm_keyword` VALUES ('2', '笔记');
+
+-- ----------------------------
+-- Table structure for storm_resource
+-- ----------------------------
+DROP TABLE IF EXISTS `storm_resource`;
+CREATE TABLE `storm_resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) NOT NULL,
+  `summary` longtext NOT NULL,
+  `doc` varchar(100) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `storm_resource_author_id_c6a2f5eb_fk_user_ouser_id` (`author_id`),
+  CONSTRAINT `storm_resource_author_id_c6a2f5eb_fk_user_ouser_id` FOREIGN KEY (`author_id`) REFERENCES `user_ouser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of storm_resource
+-- ----------------------------
+INSERT INTO `storm_resource` VALUES ('2', '测试', '描述文件，请务必填写...', 'doc/gobang-game_XmWzVDe_fwHBmhU.zip', '1');
+INSERT INTO `storm_resource` VALUES ('3', '第二次测试', '这次我写多西但是犯得上犯得上大师傅', 'doc/gobang-game_XmWzVDe_sITagyX.zip', '1');
+INSERT INTO `storm_resource` VALUES ('4', '块第三方', '大师傅大师傅', 'doc/Python编程从入门到实践.pdf', '1');
+INSERT INTO `storm_resource` VALUES ('5', '第三方第三方 地方', '大师傅士大夫 第三方', 'doc/Head_First_Java.第二版.中文完整高清版.pdf', '1');
+INSERT INTO `storm_resource` VALUES ('6', 'o huo  o ', 'o huo o ', 'doc/Head_First_Java.第二版.中文完整高清版_K3wvf2x.pdf', '2');
 
 -- ----------------------------
 -- Table structure for storm_silian
@@ -859,7 +621,7 @@ CREATE TABLE `storm_silian` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `badurl` varchar(200) NOT NULL,
   `remark` varchar(50) DEFAULT NULL,
-  `add_date` datetime NOT NULL,
+  `add_date` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -878,29 +640,80 @@ CREATE TABLE `storm_tag` (
   `description` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of storm_tag
 -- ----------------------------
-INSERT INTO `storm_tag` VALUES ('1', 'python', 'python', 'StormSha的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好');
+INSERT INTO `storm_tag` VALUES ('1', 'Git|Github', 'Git', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好');
+INSERT INTO `storm_tag` VALUES ('2', '生活笔记', 'life-note', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好');
+INSERT INTO `storm_tag` VALUES ('3', 'Python', 'python', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好');
+INSERT INTO `storm_tag` VALUES ('4', '作业', 'homework', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好');
+INSERT INTO `storm_tag` VALUES ('5', 'JAVA', 'java', 'KJ的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好');
 
 -- ----------------------------
--- Table structure for storm_timeline
+-- Table structure for user_ouser
 -- ----------------------------
-DROP TABLE IF EXISTS `storm_timeline`;
-CREATE TABLE `storm_timeline` (
+DROP TABLE IF EXISTS `user_ouser`;
+CREATE TABLE `user_ouser` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `side` varchar(1) NOT NULL,
-  `star_num` int(11) NOT NULL,
-  `icon` varchar(50) NOT NULL,
-  `icon_color` varchar(20) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `update_date` datetime NOT NULL,
-  `content` longtext NOT NULL,
-  PRIMARY KEY (`id`)
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
+  `link` varchar(200) NOT NULL,
+  `avatar` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_ouser
+-- ----------------------------
+INSERT INTO `user_ouser` VALUES ('1', 'pbkdf2_sha256$36000$md7dnozkTbkN$URxAQdogSuYTyMUIHKyBD/yjAKZSpB6dt+3SPzylqEE=', '2019-12-03 10:09:41.586044', '1', 'makangjia', '', '', 'mkj0421@126.com', '1', '1', '2019-11-28 09:45:58.634934', '', 'avatar/default.png');
+INSERT INTO `user_ouser` VALUES ('2', 'pbkdf2_sha256$36000$QHIQepgTO1u7$UCptro4e/NgDc7QrKN7gyxOrgYEg0IgfNGfIHYkOWjQ=', '2019-12-03 11:14:50.300391', '0', 'mmmkkkjjj', '', '', '185480131@qq.com', '0', '1', '2019-12-03 09:56:25.140128', '', 'avatar/default.png');
+
+-- ----------------------------
+-- Table structure for user_ouser_groups
+-- ----------------------------
+DROP TABLE IF EXISTS `user_ouser_groups`;
+CREATE TABLE `user_ouser_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ouser_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_ouser_groups_ouser_id_group_id_03bce0cb_uniq` (`ouser_id`,`group_id`),
+  KEY `user_ouser_groups_group_id_12001949_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `user_ouser_groups_group_id_12001949_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `user_ouser_groups_ouser_id_ad1b57d3_fk_user_ouser_id` FOREIGN KEY (`ouser_id`) REFERENCES `user_ouser` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of storm_timeline
+-- Records of user_ouser_groups
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_ouser_user_permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `user_ouser_user_permissions`;
+CREATE TABLE `user_ouser_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ouser_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_ouser_user_permissions_ouser_id_permission_id_ef5c908e_uniq` (`ouser_id`,`permission_id`),
+  KEY `user_ouser_user_perm_permission_id_da78e996_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `user_ouser_user_perm_permission_id_da78e996_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `user_ouser_user_permissions_ouser_id_a820347f_fk_user_ouser_id` FOREIGN KEY (`ouser_id`) REFERENCES `user_ouser` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_ouser_user_permissions
+-- ----------------------------
+SET FOREIGN_KEY_CHECKS=1;
