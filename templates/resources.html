@@ -1,0 +1,94 @@
+﻿{%extends 'base_right.html'%}
+{% load blog_tags static comment_tags%}
+{% load staticfiles %}
+{% block title %}静觅 | KJ的个人博客{% endblock title %}
+{% block description %}
+<meta name="description" content="KJ的个人博客，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好"/>
+{% endblock description %}
+{% block keywords %}
+<meta name="keywords" content="KJ,Python,Django,静觅,网络,IT,技术,博客,个人博客"/>
+{% endblock keywords %}
+
+{% block body %}
+
+    <div class="content-wrap">
+        <div class="content">
+            <div class="container">
+            <div class="modal fade" id="Upload">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form enctype="multipart/form-data" class="contact_form form-horizontal" id="resourceUpload" role="form" method="post" action="/resource/upload/" onsubmit="alert('提交成功，等待后台回应')">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">上传资源</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="txtName" class="col-sm-3 control-label">标题</label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="title" id="txtName" required pattern="[\u4e00-\u9fa5_a-zA-Z0-9_ ]{2,10}"/>
+                                    <span class="help-block">标题应当在 2 到 10 个字符之间。</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtDoc" class="col-sm-3 control-label">描述</label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="summary" id="txtDoc" required pattern="[\u4e00-\u9fa5_a-zA-Z0-9_ ]{5,15}"/>
+                                    <span class="help-block">描述应当在 5 到 15 个字符之间。</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtFile" class="col-sm-3 control-label">文件</label>
+                                <div class="col-sm-7">
+                                    <input type="file" name="file" id="txtFile" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="build_close" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p class="btn">欢迎来到资源管理界面，在这里你可以选择上传|下载自己的资源~</p>
+                <hr>
+            </div>
+            {% if is_in %}
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>标题</th>
+                            <th>概述</th>
+                            <th>作者</th>
+                            <th>文件名</th>
+                            <th>下载</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for source in resources %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ source.title }}</td>
+                                <td>{{ source.summary }}</td>
+                                <td>{{ source.author }}</td>
+                                <td>{{ source.get_title }}</td>
+                                <td><a class="btn btn-default" href="{% url 'blog:download' source.id %}">⇩</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            <div>
+                <a class="btn btn-default" data-toggle="modal" data-target="#Upload">上传文件⇧</a>
+            </div>
+            {% else %}
+                <p class="btn">还未登录，无法查看个人资源哦~ 快去注册登陆吧~</p>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
